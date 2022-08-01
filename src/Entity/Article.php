@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Model\TimestampedInterface;
 use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
  */
-class Article
+class Article implements TimestampedInterface
 {
     /**
      * @ORM\Id
@@ -50,7 +51,7 @@ class Article
     private $updatedAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Category::class, mappedBy="articles")
+     * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="articles")
      */
     private $categories;
 
@@ -215,4 +216,10 @@ class Article
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->title;
+    }
+
 }
